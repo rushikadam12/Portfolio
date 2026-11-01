@@ -1,0 +1,30 @@
+---
+// src/pages/index.astro — Landing / decision page ( / )
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import DecisionCards from '../components/landing/DecisionCards.astro';
+import StatsGrid from '../components/landing/StatsGrid.astro';
+import QuickLinks from '../components/landing/QuickLinks.astro';
+---
+
+<Layout
+  title="Rushikesh Kadam — AI & Full Stack Engineer Portfolio"
+  description="Explore the dual-lens portfolio of Rushikesh Kadam, AI Engineer and Full Stack Engineer with 2.5+ years experience building LLM pipelines, FastAPI services, and production web applications."
+>
+  <Header />
+
+  <main class="w-full pt-16 bg-surface min-h-screen">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 py-6 sm:py-8 w-full min-w-0">
+      <div class="relative flex flex-col w-full">
+        <LandingHero />
+        <DecisionCards />
+        <StatsGrid />
+        <QuickLinks />
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

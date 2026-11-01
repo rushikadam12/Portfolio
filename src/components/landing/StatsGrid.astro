@@ -1,0 +1,38 @@
+---
+// src/components/landing/StatsGrid.astro
+// 4-tile metrics grid displayed below the decision cards
+
+interface Stat {
+  label: string;
+  value: string;
+  sub: string;
+}
+
+const stats: Stat[] = [
+  { label: "Projects Shipped", value: "20+",           sub: "Production apps" },
+  { label: "Experience",       value: "2.5+ Yrs",      sub: "AI + Full Stack" },
+  { label: "Team Impact",      value: "Full Stack",     sub: "Cross-functional" },
+  { label: "Architecture",     value: "Clean & Async",  sub: "Microservices & UI" },
+];
+---
+
+<section class="py-space-md sm:py-space-lg">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-space-md">
+    {stats.map((s, index) => {
+      const delays = ["delay-75", "delay-150", "delay-225", "delay-300"];
+      return (
+        <div class={`reveal-on-scroll ${delays[index % 4]} p-3 sm:p-space-md rounded-xl bg-surface-container-low border border-outline-variant/20 flex flex-col justify-between gap-1 min-w-0 hover:-translate-y-1 hover:border-primary/40 hover:shadow-md transition-all duration-200 cursor-default group`}>
+          <span class="font-label-mono text-xs text-on-surface-variant uppercase tracking-wider leading-tight group-hover:text-primary transition-colors">
+            {s.label}
+          </span>
+          <span class="font-headline-md text-lg sm:text-xl text-on-surface font-bold truncate">
+            {s.value}
+          </span>
+          <span class="font-body-sm text-xs text-on-surface-variant leading-tight">
+            {s.sub}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</section>

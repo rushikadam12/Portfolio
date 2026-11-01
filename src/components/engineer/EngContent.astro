@@ -1,0 +1,387 @@
+---
+// src/components/engineer/EngContent.astro
+// Engineer view content — metrics, live theme inspector, tech stack matrix, and repos
+// Fully responsive in both Light and Dark themes
+
+interface StackItem {
+  category: string;
+  tools: string[];
+}
+
+interface Metric {
+  key: string;
+  value: string;
+}
+
+interface Project {
+  name: string;
+  lang: string;
+  stars: string;
+  desc: string;
+  tags: string[];
+  repoUrl: string;
+}
+const stack: StackItem[] = [
+  {
+    category: "AI / ML",
+    tools: [
+      "LangChain",
+      "OpenAI API",
+      "HuggingFace",
+      "LlamaIndex",
+      "Ollama",
+      "Prompt Engineering",
+    ],
+  },
+  {
+    category: "Frontend",
+    tools: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Astro",
+      "Tailwind CSS",
+      "HTML5/CSS3",
+    ],
+  },
+  {
+    category: "Backend",
+    tools: [
+      "Python",
+      "FastAPI",
+      "Node.js",
+      "Express",
+      "Pydantic / AsyncIO",
+      "REST APIs",
+      "GraphQL",
+    ],
+  },
+  {
+    category: "Database",
+    tools: ["PostgreSQL", "SQLAlchemy", "Prisma ORM", "Redis", "SQLite"],
+  },
+  {
+    category: "DevOps",
+    tools: ["Docker", "GitHub Actions", "CI/CD", "Vercel", "Linux / Bash"],
+  },
+  {
+    category: "Tooling",
+    tools: ["Vite", "Git", "Pytest", "ESLint", "Prettier", "uv / pip"],
+  },
+];
+
+const metrics: Metric[] = [
+  { key: "PROJECTS_SHIPPED", value: "20+" },
+  { key: "YEARS_EXPERIENCE", value: "2.5+" },
+  { key: "PRIMARY_STACK", value: "Python / LangChain / TS" },
+  { key: "EXP_TYPE", value: "AI + FS" },
+];
+
+const projects: Project[] = [
+  {
+    name: "fastapi-async-core",
+    lang: "Python / FastAPI",
+    stars: "★ Microservices",
+    desc: "High-throughput asynchronous REST API architecture built with Python, FastAPI, Pydantic, and SQLAlchemy.",
+    tags: ["python", "fastapi", "pydantic", "postgresql", "docker"],
+    repoUrl: "https://github.com/rushikadam12",
+  },
+  {
+    name: "portfolio-astro",
+    lang: "Astro / TS",
+    stars: "★ Active",
+    desc: "Dual-mode bifurcated portfolio with zero-FOUC dark theme and end-to-end security headers.",
+    tags: ["astro", "tailwindcss", "typescript"],
+    repoUrl: "https://github.com/rushikadam12",
+  },
+  {
+    name: "fullstack-saas-core",
+    lang: "TypeScript / Node",
+    stars: "★ Production",
+    desc: "Production-grade web application architecture with authentication, database migrations, and clean API routes.",
+    tags: ["react", "node", "postgresql"],
+    repoUrl: "https://github.com/rushikadam12",
+  },
+];
+---
+
+<div class="flex flex-col gap-6 sm:gap-8 pb-12">
+  <!-- ── 1. System Metrics ──────────────────────────────── -->
+  <section class="reveal-on-scroll">
+    <p
+      class="font-mono text-xs text-on-surface-variant mb-2.5 uppercase tracking-wider flex items-center gap-1.5 font-bold"
+    >
+      <span class="text-secondary font-bold">#</span> telemetry.metrics()
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+      {
+        metrics.map((m, idx) => (
+          <div class={`reveal-on-scroll delay-${(idx + 1) * 75} p-2.5 sm:p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col justify-between shadow-xs cursor-default group min-w-0`}>
+            <span class="font-mono text-[9px] sm:text-[10px] text-on-surface-variant uppercase tracking-wider group-hover:text-secondary transition-colors truncate">
+              {m.key}
+            </span>
+            <span class="font-mono text-base sm:text-2xl text-secondary font-bold mt-1">
+              {m.value}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ── 2. Interactive Theme Runtime Inspector ─────────── -->
+  <section
+    class="reveal-on-scroll delay-150 rounded-xl bg-surface-container-low p-3 sm:p-5 border border-outline-variant/30 shadow-xs hover:border-outline-variant/50 transition-colors w-full min-w-0"
+  >
+    <div
+      class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 pb-2.5 border-b border-outline-variant/20 min-w-0"
+    >
+      <p
+        class="font-mono text-xs text-on-surface uppercase tracking-wider flex items-center gap-1.5 font-bold truncate"
+      >
+        <span class="text-secondary">#</span> theme.runtime_inspector()
+      </p>
+      <span
+        class="font-mono text-[10px] text-secondary bg-surface-container px-2 py-0.5 rounded-full inline-block self-start sm:self-auto font-semibold border border-outline-variant/20 shrink-0"
+      >
+        INTERACTIVE CONTROL
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+      <!-- Status Readout -->
+      <div
+        class="font-mono text-xs space-y-2 bg-surface-container-lowest p-3 sm:p-3.5 rounded-lg border border-outline-variant/20 min-w-0"
+      >
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-on-surface-variant text-[11px] sm:text-xs">active_theme:</span>
+          <span id="eng-theme-status" class="text-secondary font-bold text-[11px] sm:text-xs"
+            >"light"</span
+          >
+        </div>
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-on-surface-variant text-[11px] sm:text-xs">system_prefers_dark:</span>
+          <span id="eng-system-status" class="text-primary font-medium text-[11px] sm:text-xs"
+            >false</span
+          >
+        </div>
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-on-surface-variant text-[11px] sm:text-xs">storage_key:</span>
+          <span class="text-on-surface-variant/70 text-[10px] sm:text-[11px] truncate"
+            >localStorage['theme']</span
+          >
+        </div>
+      </div>
+
+      <!-- Quick Switcher Controls -->
+      <div class="flex flex-col justify-center gap-1.5 sm:gap-2 min-w-0">
+        <span class="font-mono text-[11px] sm:text-xs text-on-surface-variant font-medium"
+          >manual_theme_override:</span
+        >
+        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+          <button
+            id="eng-btn-light"
+            type="button"
+            class="px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-surface-container hover:bg-surface-container-high active:scale-95 border border-outline-variant/30 font-mono text-[11px] sm:text-xs text-on-surface flex items-center justify-center gap-1 cursor-pointer transition-all shadow-xs"
+          >
+            <span class="material-symbols-outlined text-[14px]">light_mode</span
+            >
+            <span>Light</span>
+          </button>
+          <button
+            id="eng-btn-dark"
+            type="button"
+            class="px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-surface-container hover:bg-surface-container-high active:scale-95 border border-outline-variant/30 font-mono text-[11px] sm:text-xs text-on-surface flex items-center justify-center gap-1 cursor-pointer transition-all shadow-xs"
+          >
+            <span class="material-symbols-outlined text-[14px]">dark_mode</span>
+            <span>Dark</span>
+          </button>
+          <button
+            id="eng-btn-auto"
+            type="button"
+            class="px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-surface-container hover:bg-surface-container-high active:scale-95 border border-outline-variant/30 font-mono text-[11px] sm:text-xs text-on-surface flex items-center justify-center gap-1 cursor-pointer transition-all shadow-xs"
+          >
+            <span class="material-symbols-outlined text-[14px]"
+              >settings_brightness</span
+            >
+            <span>Auto</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. Tech Stack Matrix ───────────────────────────── -->
+  <section class="reveal-on-scroll delay-225 w-full min-w-0">
+    <p
+      class="font-mono text-xs text-on-surface-variant mb-2.5 uppercase tracking-wider flex items-center gap-1.5 font-bold"
+    >
+      <span class="text-secondary font-bold">#</span> stack.inspect()
+    </p>
+    <div
+      class="rounded-xl bg-surface-container-low overflow-hidden border border-outline-variant/30 shadow-xs w-full min-w-0"
+    >
+      {
+        stack.map((row, i) => (
+          <div
+            class:list={[
+              "flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-3 sm:p-4 min-w-0",
+              i < stack.length - 1 ? "border-b border-outline-variant/20" : "",
+            ]}
+          >
+            <span class="font-mono text-xs text-secondary uppercase tracking-wider sm:w-28 shrink-0 font-bold">
+              {row.category}
+            </span>
+            <div class="flex flex-wrap gap-1.5 flex-1 min-w-0">
+              {row.tools.map((t) => (
+                <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-mono text-xs shadow-2xs">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ── 4. Project Repos ───────────────────────────────── -->
+  <section class="reveal-on-scroll delay-200">
+    <p
+      class="font-mono text-xs text-on-surface-variant mb-2.5 uppercase tracking-wider flex items-center gap-1.5 font-bold"
+    >
+      <span class="text-secondary font-bold">#</span> git.log --repositories
+    </p>
+    <div class="flex flex-col gap-3">
+      {
+        projects.map((p, idx) => (
+          <div class={`reveal-on-scroll delay-${(idx + 1) * 150} p-4 rounded-xl bg-surface-container-low border border-outline-variant/30 hover:border-secondary/60 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex flex-col gap-2 shadow-xs group`}>
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <a
+                href={p.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-mono text-sm sm:text-base text-primary font-bold hover:underline flex items-center gap-1.5 group-hover:text-secondary transition-colors"
+              >
+                <span class="material-symbols-outlined text-[16px]">
+                  folder
+                </span>
+                {p.name}
+              </a>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[11px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded border border-outline-variant/20">
+                  {p.lang}
+                </span>
+                <span class="font-mono text-[11px] text-secondary font-semibold">
+                  {p.stars}
+                </span>
+              </div>
+            </div>
+            <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+              {p.desc}
+            </p>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              {p.tags.map((tag) => (
+                <span class="font-mono text-[10px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ── 5. Contact Terminal ────────────────────────────── -->
+  <section
+    class="reveal-on-scroll delay-250 rounded-xl bg-surface-container-low p-4 sm:p-5 border border-outline-variant/30 shadow-xs"
+  >
+    <p
+      class="font-mono text-xs text-on-surface-variant mb-3 uppercase tracking-wider flex items-center gap-1.5 font-bold"
+    >
+      <span class="text-secondary font-bold">#</span> contact.connect()
+    </p>
+    <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+      <a
+        href="https://github.com/rushikadam12"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-mono text-xs sm:text-sm text-primary hover:underline hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/20"
+      >
+        <span class="material-symbols-outlined text-base leading-none">code</span>
+        github.com/rushikadam12
+      </a>
+      <a
+        href="mailto:contact@rushikeshkadam.dev"
+        class="font-mono text-xs sm:text-sm text-primary hover:underline hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 flex items-center gap-2 p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/20"
+      >
+        <span class="material-symbols-outlined text-[16px]">mail</span>
+        contact@rushikeshkadam.dev
+      </a>
+    </div>
+  </section>
+</div>
+
+<script>
+  function setupThemeInspector() {
+    const statusEl = document.getElementById("eng-theme-status");
+    const systemEl = document.getElementById("eng-system-status");
+    const btnLight = document.getElementById("eng-btn-light");
+    const btnDark = document.getElementById("eng-btn-dark");
+    const btnAuto = document.getElementById("eng-btn-auto");
+
+    function refreshInspector() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      if (statusEl) statusEl.textContent = isDark ? '"dark"' : '"light"';
+      if (systemEl) systemEl.textContent = prefersDark ? "true" : "false";
+
+      // Also sync header icons if present
+      const sunIcon = document.getElementById("theme-icon-sun");
+      const moonIcon = document.getElementById("theme-icon-moon");
+      if (sunIcon && moonIcon) {
+        sunIcon.style.display = isDark ? "block" : "none";
+        moonIcon.style.display = isDark ? "none" : "block";
+      }
+    }
+
+    if (btnLight) {
+      btnLight.onclick = () => {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+        refreshInspector();
+      };
+    }
+
+    if (btnDark) {
+      btnDark.onclick = () => {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+        refreshInspector();
+      };
+    }
+
+    if (btnAuto) {
+      btnAuto.onclick = () => {
+        localStorage.removeItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        if (prefersDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+        refreshInspector();
+      };
+    }
+
+    refreshInspector();
+  }
+
+  setupThemeInspector();
+  document.addEventListener("astro:page-load", setupThemeInspector);
+</script>

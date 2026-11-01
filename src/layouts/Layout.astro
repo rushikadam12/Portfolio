@@ -1,0 +1,190 @@
+---
+// Layout.astro — Global HTML shell
+// Accepts: title (string, optional), description (string, optional)
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const {
+  title = "Rushikesh Kadam — AI & Full Stack Engineer",
+  description = "Portfolio of Rushikesh Kadam — AI Full Stack Engineer with 2.5+ years experience building LLM pipelines, FastAPI services, and production web applications.",
+  image = "/profile-photo.jpeg",
+  type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://rushikeshkadam.dev");
+const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
+    <title>{title}</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Primary SEO Meta Tags -->
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Rushikesh Kadam" />
+    <meta
+      name="keywords"
+      content="Rushikesh Kadam, AI Engineer, Full Stack Engineer, LangChain, FastAPI, Python, TypeScript, React, Next.js, OpenAI API, Web Development, Portfolio"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#4F46E5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F1117" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:site_name" content="Rushikesh Kadam Portfolio" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+
+    <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rushikesh Kadam",
+        "jobTitle": "AI Engineer & Full Stack Engineer",
+        "url": canonicalURL.href,
+        "image": socialImageURL.href,
+        "description": description,
+        "sameAs": [
+          "https://github.com/rushikadam12",
+          "https://linkedin.com/in/rushikeshkadam"
+        ],
+        "knowsAbout": [
+          "Artificial Intelligence",
+          "Large Language Models",
+          "LangChain",
+          "FastAPI",
+          "Full Stack Development",
+          "Python",
+          "TypeScript",
+          "React",
+          "Next.js",
+          "Tailwind CSS",
+          "PostgreSQL",
+          "Docker"
+        ]
+      })}
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Client-side Page Router & View Transitions -->
+    <ClientRouter />
+
+    <!-- Google Fonts: Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Inter + JetBrains Mono -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Material Symbols Outlined -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+
+    <!-- Zero-FOUC Dark Mode Initializer & View Transitions Theme Sync -->
+    <script is:inline>
+      function applyTheme() {
+        const storedTheme =
+          typeof localStorage !== "undefined"
+            ? localStorage.getItem("theme")
+            : null;
+        const systemDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        if (storedTheme === "dark" || (!storedTheme && systemDark)) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }
+      applyTheme();
+      document.addEventListener("astro:after-swap", applyTheme);
+    </script>
+  </head>
+
+  <body
+    class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary"
+  >
+    <slot />
+
+    <!-- Lightweight Scroll-Reveal Animation Engine -->
+    <script>
+      function initScrollReveal() {
+        const reveals = document.querySelectorAll(".reveal-on-scroll");
+        if (!reveals.length) return;
+
+        // Respect reduced motion settings
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          reveals.forEach((el) => el.classList.add("is-revealed"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-revealed");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            rootMargin: "0px 0px -40px 0px",
+            threshold: 0.08,
+          },
+        );
+
+        reveals.forEach((el) => {
+          if (!el.classList.contains("is-revealed")) {
+            observer.observe(el);
+          }
+        });
+      }
+
+      // Initial execution and re-execution on Astro client transitions
+      initScrollReveal();
+      document.addEventListener("astro:page-load", initScrollReveal);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+---
+// src/components/landing/LandingHero.astro
+// Hero section: eyebrow badge, headline, supporting text, telemetry strip
+---
+
+<section class="flex flex-col items-center text-center pt-space-md pb-space-lg md:pb-space-xl px-4 sm:px-0">
+
+  <!-- ── Eyebrow badge ──────────────────────────────────── -->
+  <div class="reveal-on-scroll inline-flex items-center gap-space-xs px-3 sm:px-space-md py-1 sm:py-1.5 rounded-full bg-surface-container-high text-primary shadow-sm hover:scale-105 transition-transform duration-200 cursor-default max-w-full">
+    <span class="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0"></span>
+    <span class="font-code-sm text-xs sm:text-code-sm font-semibold tracking-wide uppercase text-on-surface-variant truncate">
+      Rushikesh Kadam · AI Full Stack Engineer
+    </span>
+  </div>
+
+  <!-- ── Main headline (fluid responsive typography) ────── -->
+  <h1 class="reveal-on-scroll delay-75 mt-space-md font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-on-surface max-w-3xl tracking-tight leading-tight">
+    How do you want to read my portfolio?
+  </h1>
+
+  <!-- ── Supporting statement ───────────────────────────── -->
+  <p class="reveal-on-scroll delay-150 mt-space-md font-body-lg text-sm sm:text-base text-on-surface-variant max-w-xl sm:max-w-2xl leading-relaxed">
+    I build high-performance web applications and developer tooling used by teams worldwide.
+    Choose the lens that fits your flow.
+  </p>
+
+  <!-- ── Telemetry sparkline strip (responsive chips) ────── -->
+  <div class="reveal-on-scroll delay-225 mt-space-md flex flex-wrap items-center justify-center gap-2 sm:gap-x-space-lg sm:gap-y-space-xs font-label-mono text-xs text-on-surface-variant/90">
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
+      <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+      OPEN TO WORK
+    </span>
+    <span class="hidden sm:inline text-outline-variant">•</span>
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
+      <span class="material-symbols-outlined text-sm leading-none text-primary">bolt</span>
+      2.5 YRS · AI + FULL STACK
+    </span>
+    <span class="hidden sm:inline text-outline-variant">•</span>
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
+      <span class="material-symbols-outlined text-sm leading-none text-on-surface-variant">terminal</span>
+      DUAL-PIPELINE VIEW
+    </span>
+  </div>
+
+</section>

@@ -1,0 +1,64 @@
+---
+// src/components/landing/QuickLinks.astro
+// External quick-launch pill links: GitHub, LinkedIn, Resume, Email
+
+interface QuickLink {
+  icon: string;
+  label: string;
+  shortLabel: string;
+  href: string;
+  external: boolean;
+}
+
+const links: QuickLink[] = [
+  {
+    icon: "code",
+    label: "github.com/rushikadam12",
+    shortLabel: "GitHub",
+    href: "https://github.com/rushikadam12",
+    external: true,
+  },
+  {
+    icon: "hub",
+    label: "linkedin.com/in/rushikeshkadam",
+    shortLabel: "LinkedIn",
+    href: "https://linkedin.com/in/rushikeshkadam",
+    external: true,
+  },
+  {
+    icon: "picture_as_pdf",
+    label: "Resume PDF",
+    shortLabel: "Resume",
+    href: "/resume.pdf",
+    external: false,
+  },
+  {
+    icon: "mail",
+    label: "contact@rushikadam.dev",
+    shortLabel: "Email",
+    href: "mailto:rushi55578@gmail.com",
+    external: false,
+  },
+];
+---
+
+<section
+  class="reveal-on-scroll delay-300 pt-2 sm:pt-4 pb-8 sm:pb-12 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-on-surface-variant text-xs sm:text-sm"
+>
+  {
+    links.map((l) => (
+      <a
+        href={l.href}
+        target={l.external ? "_blank" : undefined}
+        rel={l.external ? "noopener noreferrer" : undefined}
+        class="min-h-11 px-3.5 sm:px-4 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/30 hover:bg-surface-container hover:text-on-surface hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 flex items-center gap-2 shadow-xs group"
+      >
+        <span class="material-symbols-outlined text-base leading-none text-primary group-hover:scale-110 transition-transform">
+          {l.icon}
+        </span>
+        <span class="inline sm:hidden font-medium">{l.shortLabel}</span>
+        <span class="hidden sm:inline font-mono">{l.label}</span>
+      </a>
+    ))
+  }
+</section>
