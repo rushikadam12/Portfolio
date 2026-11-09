@@ -1,376 +1,75 @@
 ---
-// src/components/common/Header.astro
-// Clean, fully responsive sticky header with profile photo, mode pills, and mobile drawer
-import profilePhoto from "../../assets/profile-photo.jpeg";
+// Header.astro — site header: name, view switch (Professional / Engineer), theme toggle.
+// Small enough to fit a 320px screen, so there is no mobile drawer.
+import Icon from "./Icon.astro";
+import { profile } from "../../data/profile";
 
-const currentPath = Astro.url.pathname;
-const normalizedPath = currentPath.replace(/\/$/, "") || "/";
-
-const isHome = normalizedPath === "/";
-const isProfessional = normalizedPath.startsWith("/professional");
-const isEngineer = normalizedPath.startsWith("/engineer");
-
-function navClass(active: boolean) {
-  return active
-    ? "px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-semibold text-sm transition-all shadow-xs"
-    : "px-3 py-1.5 rounded-lg text-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all";
-}
-
-function modeClass(active: boolean) {
-  return active
-    ? "px-3 py-1 rounded-full bg-surface-container-lowest text-primary shadow-xs font-semibold text-xs flex items-center gap-1 transition-all"
-    : "px-3 py-1 rounded-full text-on-surface-variant font-mono text-xs hover:text-on-surface transition-all flex items-center gap-1";
-}
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const views = [
+  { href: "/professional", label: "Professional" },
+  { href: "/engineer", label: "Engineer" },
+];
 ---
 
-<header
-  class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl border-b border-outline-variant/30 transition-colors"
->
-  <div
-    class="h-16 max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-2"
-  >
-    <!-- ── Left: Brand & Avatar ────────────────────────── -->
-    <div class="flex items-center gap-2 min-w-0 flex-1">
-      <a
-        href="/"
-        class="flex items-center gap-2 min-w-0 group shrink-0"
-        title="Rushikesh Kadam - Home"
-      >
-        <img
-          src={profilePhoto.src}
-          alt="Rushikesh Kadam"
-          class="w-8 h-8 rounded-full object-cover shrink-0 ring-2 ring-primary/30 group-hover:ring-primary transition-all shadow-xs"
-          loading="eager"
-        />
-        <div class="flex flex-col min-w-0">
-          <span
-            class="font-headline-sm text-sm sm:text-base font-bold text-on-surface tracking-tight truncate leading-tight"
-          >
-            Rushikesh Kadam
-          </span>
-          <span
-            class="hidden md:inline font-code-sm text-xs text-on-surface-variant leading-tight"
-          >
-            AI Full Stack Engineer
-          </span>
-        </div>
-      </a>
+<header class="fixed top-0 inset-x-0 z-50 border-b border-rule bg-paper/90 backdrop-blur-md">
+  <div class="wrap flex h-16 items-center justify-between gap-3">
+    <a href="/" class="flex min-h-11 items-center gap-2.5 font-semibold text-ink" aria-label={`${profile.name}, home`}>
+      <span class="grid h-8 w-8 place-items-center rounded-md bg-ink text-[13px] font-bold tracking-tight text-paper">
+        {profile.shortName}
+      </span>
+      <span class="hidden sm:inline">{profile.name}</span>
+    </a>
 
-      <!-- Desktop Nav (≥lg) -->
-      <nav
-        class="hidden lg:flex items-center gap-1 ml-4 border-l border-outline-variant/30 pl-4"
-      >
-        <a href="/" class={navClass(isHome)}>Home</a>
-        <a href="/professional" class={navClass(isProfessional)}>Professional </a
-        >
-        <a href="/engineer" class={navClass(isEngineer)}>Engineer</a>
+    <div class="flex items-center gap-2">
+      <nav aria-label="Choose a view" class="flex rounded-lg border border-rule p-0.5">
+        {views.map((v) => {
+          const active = path === v.href;
+          return (
+            <a
+              href={v.href}
+              aria-current={active ? "page" : undefined}
+              class={`inline-flex min-h-10 items-center rounded-md px-3 text-sm transition-colors ${
+                active ? "bg-ink font-semibold text-paper" : "text-muted hover:text-ink"
+              }`}
+            >
+              {v.label}
+            </a>
+          );
+        })}
       </nav>
-    </div>
 
-    <!-- ── Right: Mode Toggle + Social + Theme + Menu ─── -->
-    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-      <!-- Desktop Mode Pill (≥md) -->
-      <div
-        class="hidden md:flex p-0.5 rounded-full bg-surface-container-high items-center shadow-inner"
-      >
-        <a
-          href="/professional"
-          class={modeClass(isProfessional)}
-          title="Professional View"
-        >
-          <span>Professional</span>
-        </a>
-        <a href="/engineer" class={modeClass(isEngineer)} title="Engineer View">
-          <span>Engineer</span>
-        </a>
-      </div>
-
-      <!-- Theme Toggle Button -->
       <button
-        id="theme-toggle-btn"
+        id="theme-toggle"
         type="button"
-        aria-label="Toggle dark mode"
-        title="Toggle Theme"
-        class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors cursor-pointer border border-outline-variant/30"
+        class="grid h-11 w-11 place-items-center rounded-lg text-muted transition-colors hover:text-ink"
+        aria-label="Switch to dark theme"
       >
-        <!--
-          Both icons rendered; JS sets style.display.
-          Sun = shown in dark mode (click to go light)
-          Moon = shown in light mode (click to go dark)
-        -->
-        <span
-          id="theme-icon-sun"
-          class="material-symbols-outlined text-lg leading-none pointer-events-none select-none"
-          style="display:none">light_mode</span
-        >
-        <span
-          id="theme-icon-moon"
-          class="material-symbols-outlined text-lg leading-none pointer-events-none select-none"
-          style="display:block">dark_mode</span
-        >
-      </button>
-
-      <!-- GitHub Link (≥sm) -->
-      <a
-        aria-label="GitHub Profile"
-        href="https://github.com/rushikadam12"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="GitHub @rushikadam12"
-        class="hidden sm:flex w-9 h-9 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all items-center justify-center border border-transparent hover:border-outline-variant/30"
-      >
-        <span class="material-symbols-outlined text-lg leading-none">code</span>
-      </a>
-
-      <!-- Hamburger Button (<lg) — JS handles open/close via style.display -->
-      <button
-        id="mobile-menu-btn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-        class="lg:hidden w-9 h-9 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors flex items-center justify-center cursor-pointer border border-outline-variant/30"
-      >
-        <span
-          id="mobile-menu-open-icon"
-          class="material-symbols-outlined text-xl leading-none pointer-events-none select-none"
-          style="display:block">menu</span
-        >
-        <span
-          id="mobile-menu-close-icon"
-          class="material-symbols-outlined text-xl leading-none pointer-events-none select-none"
-          style="display:none">close</span
-        >
+        <span class="theme-icon-moon"><Icon name="moon" size={18} /></span>
+        <span class="theme-icon-sun hidden"><Icon name="sun" size={18} /></span>
       </button>
     </div>
-  </div>
-
-  <!--
-    Mobile Drawer — visibility is 100% controlled by JS style.display.
-    No Tailwind hidden/show classes used here to avoid specificity conflicts.
-  -->
-  <div
-    id="mobile-menu-drawer"
-    style="display:none"
-    class="border-t border-outline-variant/30 bg-surface/98 backdrop-blur-2xl px-4 py-4 shadow-2xl"
-  >
-    <!-- Profile Mini-Card -->
-    <div
-      class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low border border-outline-variant/20 mb-3"
-    >
-      <img
-        src={profilePhoto.src}
-        alt="Rushikesh Kadam"
-        class="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-primary/40"
-      />
-      <div class="flex flex-col min-w-0">
-        <span class="font-bold text-sm text-on-surface truncate"
-          >Rushikesh Kadam</span
-        >
-        <span class="text-xs text-on-surface-variant truncate"
-          >AI Full Stack Engineer</span
-        >
-      </div>
-    </div>
-
-    <!-- Mode Selector in Mobile Drawer -->
-    <div
-      class="p-1 rounded-xl bg-surface-container-high grid grid-cols-2 gap-1 mb-3"
-    >
-      <a
-        href="/professional"
-        class={`py-2 px-3 rounded-lg text-center font-semibold text-xs transition-all ${
-          isProfessional
-            ? "bg-primary text-on-primary shadow-xs"
-            : "text-on-surface-variant hover:text-on-surface"
-        }`}
-      >
-        Professional
-      </a>
-      <a
-        href="/engineer"
-        class={`py-2 px-3 rounded-lg text-center font-semibold text-xs transition-all ${
-          isEngineer
-            ? "bg-primary text-on-primary shadow-xs"
-            : "text-on-surface-variant hover:text-on-surface"
-        }`}
-      >
-        Engineer
-      </a>
-    </div>
-
-    <!-- Navigation Links -->
-    <nav class="flex flex-col gap-1">
-      <a
-        href="/"
-        class={`px-3 py-2.5 rounded-xl text-sm flex items-center justify-between ${
-          isHome
-            ? "bg-primary/10 text-primary font-bold"
-            : "text-on-surface hover:bg-surface-container"
-        }`}
-      >
-        <span class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-lg leading-none"
-            >home</span
-          >
-          Landing Home
-        </span>
-        <span class="text-xs opacity-60 font-mono">/</span>
-      </a>
-
-      <a
-        href="/professional"
-        class={`px-3 py-2.5 rounded-xl text-sm flex items-center justify-between ${
-          isProfessional
-            ? "bg-primary/10 text-primary font-bold"
-            : "text-on-surface hover:bg-surface-container"
-        }`}
-      >
-        <span class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-lg leading-none"
-            >business_center</span
-          >
-          Professional View
-        </span>
-        <span class="text-xs opacity-60 font-mono">/professional</span>
-      </a>
-
-      <a
-        href="/engineer"
-        class={`px-3 py-2.5 rounded-xl text-sm flex items-center justify-between ${
-          isEngineer
-            ? "bg-primary/10 text-primary font-bold"
-            : "text-on-surface hover:bg-surface-container"
-        }`}
-      >
-        <span class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-lg leading-none"
-            >terminal</span
-          >
-          Engineer View
-        </span>
-        <span class="text-xs opacity-60 font-mono">/engineer</span>
-      </a>
-
-      <div class="h-px bg-outline-variant/20 my-2"></div>
-
-      <!-- External Links -->
-      <div class="grid grid-cols-2 gap-2">
-        <a
-          href="https://github.com/rushikadam12"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high transition-colors border border-outline-variant/20"
-        >
-          <span class="material-symbols-outlined text-base leading-none"
-            >code</span
-          >
-          GitHub
-        </a>
-        <a
-          href="mailto:rushi55578@gmail.com"
-          class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-container text-on-surface text-xs font-medium hover:bg-surface-container-high transition-colors border border-outline-variant/20"
-        >
-          <span class="material-symbols-outlined text-base leading-none"
-            >mail</span
-          >
-          Email
-        </a>
-      </div>
-    </nav>
   </div>
 </header>
 
 <script>
-  function setupHeader() {
-    const menuBtn = document.getElementById(
-      "mobile-menu-btn",
-    ) as HTMLElement | null;
-    const drawer = document.getElementById(
-      "mobile-menu-drawer",
-    ) as HTMLElement | null;
-    const openIcon = document.getElementById(
-      "mobile-menu-open-icon",
-    ) as HTMLElement | null;
-    const closeIcon = document.getElementById(
-      "mobile-menu-close-icon",
-    ) as HTMLElement | null;
-    const themeBtn = document.getElementById(
-      "theme-toggle-btn",
-    ) as HTMLElement | null;
-    const sunIcon = document.getElementById(
-      "theme-icon-sun",
-    ) as HTMLElement | null;
-    const moonIcon = document.getElementById(
-      "theme-icon-moon",
-    ) as HTMLElement | null;
-
-    // ── 1. Drawer helpers ──────────────────────────────────────
-    function openDrawer() {
-      if (!drawer || !openIcon || !closeIcon || !menuBtn) return;
-      drawer.style.display = "block";
-      openIcon.style.display = "none";
-      closeIcon.style.display = "block";
-      menuBtn.setAttribute("aria-expanded", "true");
-    }
-
-    function closeDrawer() {
-      if (!drawer || !openIcon || !closeIcon || !menuBtn) return;
-      drawer.style.display = "none";
-      openIcon.style.display = "block";
-      closeIcon.style.display = "none";
-      menuBtn.setAttribute("aria-expanded", "false");
-    }
-
-    // Force-close drawer on ≥lg resize
-    window.onresize = () => {
-      if (window.innerWidth >= 1024) closeDrawer();
+  function setupThemeToggle() {
+    const btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    const sync = () => {
+      const dark = document.documentElement.classList.contains("dark");
+      btn.querySelector(".theme-icon-sun")?.classList.toggle("hidden", !dark);
+      btn.querySelector(".theme-icon-moon")?.classList.toggle("hidden", dark);
+      btn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
     };
-
-    if (menuBtn) {
-      menuBtn.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const isOpen = drawer?.style.display === "block";
-        isOpen ? closeDrawer() : openDrawer();
-      };
-    }
-
-    // Close when any nav link inside the drawer is tapped
-    if (drawer) {
-      drawer.querySelectorAll("a").forEach((link) => {
-        link.onclick = () => {
-          closeDrawer();
-        };
-      });
-    }
-
-    // ── 2. Theme Toggle ────────────────────────────────────────
-    function syncThemeIcons() {
-      const isDark = document.documentElement.classList.contains("dark");
-      if (sunIcon) sunIcon.style.display = isDark ? "block" : "none";
-      if (moonIcon) moonIcon.style.display = isDark ? "none" : "block";
-    }
-
-    if (themeBtn) {
-      themeBtn.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const isDark = document.documentElement.classList.contains("dark");
-        const nextDark = !isDark;
-        if (nextDark) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-        localStorage.setItem("theme", nextDark ? "dark" : "light");
-        syncThemeIcons();
-      };
-    }
-
-    syncThemeIcons();
+    btn.onclick = () => {
+      const dark = document.documentElement.classList.toggle("dark");
+      try {
+        localStorage.setItem("theme", dark ? "dark" : "light");
+      } catch {}
+      sync();
+    };
+    sync();
   }
-
-  // Idempotent setup (runs on load and on view transitions)
-  setupHeader();
-  document.addEventListener("astro:page-load", setupHeader);
+  setupThemeToggle();
+  document.addEventListener("astro:page-load", setupThemeToggle);
 </script>

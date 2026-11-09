@@ -1,25 +1,18 @@
 ---
-// src/pages/engineer/index.astro — Engineer portfolio view ( /engineer )
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/common/Header.astro';
-import Footer from '../../components/common/Footer.astro';
-import EngHero from '../../components/engineer/EngHero.astro';
-import EngContent from '../../components/engineer/EngContent.astro';
+// src/pages/engineer/index.astro — Engineer view ( /engineer ): the portfolio as source files
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/common/Header.astro";
+import Footer from "../../components/common/Footer.astro";
+import EngContent from "../../components/engineer/EngContent.astro";
 ---
 
 <Layout
-  title="Engineer Telemetry — Rushikesh Kadam | Raw Tech Stack & Metrics"
-  description="Developer and architecture view of Rushikesh Kadam's portfolio — raw tech stack, terminal metrics, GitHub repositories, and live telemetry data."
+  title="Rushikesh Kadam — Source View | Stack, Experience and Contact"
+  description="The portfolio of Rushikesh Kadam, SDE-2 at Sciverse Solutions, as source files: profile.json, experience.ts, stack.yaml and contact.sh."
 >
   <Header />
-
-  <main class="w-full pt-16 bg-surface min-h-screen">
-    <div class="max-w-5xl mx-auto px-3 sm:px-6 py-6 sm:py-8 w-full min-w-0">
-      <EngHero />
-      <EngContent />
-    </div>
+  <main id="main">
+    <EngContent />
   </main>
-
   <Footer />
 </Layout>
-

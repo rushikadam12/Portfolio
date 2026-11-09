@@ -22,3 +22,15 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# claude local overrides
+.claude/settings.local.json
+.taste-skill/
+shots/
+/.claude
+/CLAUDE.md
+/skills-lock.json
+/.mcp.json
+/TODO.md
+/plan.md
+/.agents

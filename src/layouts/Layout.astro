@@ -1,6 +1,6 @@
 ---
 // Layout.astro — Global HTML shell
-// Accepts: title (string, optional), description (string, optional)
+// Accepts: title, description, image, type (all optional)
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 
@@ -12,8 +12,8 @@ interface Props {
 }
 
 const {
-  title = "Rushikesh Kadam — AI & Full Stack Engineer",
-  description = "Portfolio of Rushikesh Kadam — AI Full Stack Engineer with 2.5+ years experience building LLM pipelines, FastAPI services, and production web applications.",
+  title = "Rushikesh Kadam — AI and Full-Stack Engineer",
+  description = "Rushikesh Kadam, SDE-2 at Sciverse Solutions, builds LLM pipelines, FastAPI services and the web applications around them.",
   image = "/profile-photo.jpeg",
   type = "website",
 } = Astro.props;
@@ -28,7 +28,7 @@ const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev"
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+      content="width=device-width, initial-scale=1.0"
     />
     <title>{title}</title>
 
@@ -47,8 +47,8 @@ const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev"
     <meta name="generator" content={Astro.generator} />
 
     <!-- Theme Colors -->
-    <meta name="theme-color" content="#4F46E5" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0F1117" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)" />
 
     <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
     <meta property="og:type" content={type} />
@@ -74,7 +74,8 @@ const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev"
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Rushikesh Kadam",
-        "jobTitle": "AI Engineer & Full Stack Engineer",
+        "jobTitle": "SDE-2, AI and full-stack engineer",
+        "worksFor": { "@type": "Organization", "name": "Sciverse Solutions Pvt. Ltd." },
         "url": canonicalURL.href,
         "image": socialImageURL.href,
         "description": description,
@@ -110,15 +111,9 @@ const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev"
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Inter + JetBrains Mono -->
+    <!-- Schibsted Grotesk (text) + IBM Plex Mono (code) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Material Symbols Outlined -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -143,48 +138,8 @@ const socialImageURL = new URL(image, Astro.site || "https://rushikeshkadam.dev"
     </script>
   </head>
 
-  <body
-    class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary"
-  >
+  <body class="antialiased">
+    <a href="#main" class="skip-link">Skip to content</a>
     <slot />
-
-    <!-- Lightweight Scroll-Reveal Animation Engine -->
-    <script>
-      function initScrollReveal() {
-        const reveals = document.querySelectorAll(".reveal-on-scroll");
-        if (!reveals.length) return;
-
-        // Respect reduced motion settings
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          reveals.forEach((el) => el.classList.add("is-revealed"));
-          return;
-        }
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-revealed");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          {
-            rootMargin: "0px 0px -40px 0px",
-            threshold: 0.08,
-          },
-        );
-
-        reveals.forEach((el) => {
-          if (!el.classList.contains("is-revealed")) {
-            observer.observe(el);
-          }
-        });
-      }
-
-      // Initial execution and re-execution on Astro client transitions
-      initScrollReveal();
-      document.addEventListener("astro:page-load", initScrollReveal);
-    </script>
   </body>
 </html>

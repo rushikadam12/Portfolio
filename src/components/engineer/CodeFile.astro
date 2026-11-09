@@ -1,0 +1,36 @@
+---
+// CodeFile.astro — one "open file" in the Engineer view: a tab bar naming the
+// file (the section heading) and either highlighted code lines or slotted prose.
+import Icon from "../common/Icon.astro";
+import type { Line } from "../../lib/code";
+
+interface Props {
+  id: string;
+  file: string;
+  lines?: Line[];
+  enter?: boolean;
+}
+const { id, file, lines, enter = false } = Astro.props;
+---
+
+<section id={id} aria-labelledby={`${id}-title`} class="overflow-hidden rounded-lg border border-ed-line bg-ed-bg" data-enter={enter ? "" : undefined}>
+  <div class="flex items-center gap-2 border-b border-ed-line bg-ed-panel px-4 py-2.5">
+    <Icon name="file" size={14} class="text-ed-muted" />
+    <h2 id={`${id}-title`} class="font-mono text-[0.8125rem] font-medium text-ed-text">{file}</h2>
+  </div>
+  {lines ? (
+    <pre class="code numbered py-4 pr-4">{lines.map((line) => (
+      <span>{line.length === 0 ? " " : line.map((tok) =>
+        tok.href ? (
+          <a class={tok.c} href={tok.href} target={tok.href.startsWith("http") ? "_blank" : undefined} rel={tok.href.startsWith("http") ? "noopener noreferrer" : undefined}>{tok.t}</a>
+        ) : (
+          <span class={tok.c}>{tok.t}</span>
+        )
+      )}</span>
+    ))}</pre>
+  ) : (
+    <div class="px-5 py-6 sm:px-8 sm:py-8">
+      <slot />
+    </div>
+  )}
+</section>

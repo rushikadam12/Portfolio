@@ -1,188 +1,59 @@
 /* ============================================================
-   Tailwind v4 @theme — Material Design 3 Token Palette
-   Supports seamless Dark Mode via CSS variables cascade
+   Design tokens (Tailwind v4 @theme)
+   Light values live here; .dark below overrides them.
+   Use the generated utilities (bg-paper, text-ink, border-rule,
+   text-accent, bg-ed-bg ...). Never hard-code a hex in a component.
    ============================================================ */
 
 @theme {
-  /* ── Colors (Light Default on :root) ───────────────────────── */
-  --color-primary:                   #3525cd;
-  --color-on-primary:                #ffffff;
-  --color-primary-container:         #4f46e5;
-  --color-on-primary-container:      #dad7ff;
-  --color-primary-fixed:             #e2dfff;
-  --color-primary-fixed-dim:         #c3c0ff;
-  --color-on-primary-fixed:          #0f0069;
-  --color-on-primary-fixed-variant:  #3323cc;
-  --color-inverse-primary:           #c3c0ff;
-  --color-surface-tint:              #4d44e3;
+  /* ── Professional palette ─────────────────────────────── */
+  --color-paper:       #f6f7f5; /* page background */
+  --color-surface:     #ffffff; /* raised panels */
+  --color-ink:         #15181d; /* body text, headings */
+  --color-muted:       #5b6470; /* secondary text */
+  --color-rule:        #dcdfda; /* borders and dividers */
+  --color-accent:      #1f5fd6; /* links and primary actions */
+  --color-accent-ink:  #1a4fb3; /* accent hover / pressed */
+  --color-on-accent:   #ffffff;
+  --color-accent-tint: #e8effc; /* selection, subtle highlight */
 
-  --color-secondary:                 #006e21;
-  --color-on-secondary:              #ffffff;
-  --color-secondary-container:       #83fc89;
-  --color-on-secondary-container:    #007524;
-  --color-secondary-fixed:           #83fc89;
-  --color-secondary-fixed-dim:       #67df70;
-  --color-on-secondary-fixed:        #002105;
-  --color-on-secondary-fixed-variant: #005317;
+  /* ── Engineer (editor) palette ────────────────────────── */
+  --color-ed-bg:     #ffffff;
+  --color-ed-panel:  #f2f3f1;
+  --color-ed-line:   #dcdfda;
+  --color-ed-text:   #1f2328;
+  --color-ed-muted:  #5f6670;
+  --color-ed-key:    #0a55a8;
+  --color-ed-str:    #8a3b00;
+  --color-ed-num:    #0f7b6c;
+  --color-ed-ok:     #1a7f37;
 
-  --color-tertiary:                  #7e3000;
-  --color-on-tertiary:               #ffffff;
-  --color-tertiary-container:        #a44100;
-  --color-on-tertiary-container:     #ffd2be;
-  --color-tertiary-fixed:            #ffdbcc;
-  --color-tertiary-fixed-dim:        #ffb695;
-  --color-on-tertiary-fixed:         #351000;
-  --color-on-tertiary-fixed-variant: #7b2f00;
+  /* ── Type ─────────────────────────────────────────────── */
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --color-error:                     #ba1a1a;
-  --color-on-error:                  #ffffff;
-  --color-error-container:           #ffdad6;
-  --color-on-error-container:        #93000a;
-
-  --color-surface:                   #fff8f5;
-  --color-surface-dim:               #e0d8d5;
-  --color-surface-bright:            #fff8f5;
-  --color-surface-variant:           #e9e1dd;
-  --color-on-surface:                #1e1b19;
-  --color-on-surface-variant:        #464555;
-  --color-surface-container-lowest:  #ffffff;
-  --color-surface-container-low:     #faf2ee;
-  --color-surface-container:         #f4ece8;
-  --color-surface-container-high:    #eee7e3;
-  --color-surface-container-highest: #e9e1dd;
-  --color-inverse-surface:           #33302d;
-  --color-inverse-on-surface:        #f7efeb;
-
-  --color-background:                #fff8f5;
-  --color-on-background:             #1e1b19;
-  --color-outline:                   #777587;
-  --color-outline-variant:           #c7c4d8;
-
-  /* ── Spacing ─────────────────────────────────────────────── */
-  --spacing-space-xs:       0.25rem;
-  --spacing-space-sm:       0.5rem;
-  --spacing-space-md:       1rem;
-  --spacing-space-lg:       1.5rem;
-  --spacing-space-xl:       2.5rem;
-  --spacing-gutter:         1.5rem;
-  --spacing-gutter-mobile:  1rem;
-  --spacing-margin:         2rem;
-  --spacing-margin-mobile:  1rem;
-
-  /* ── Border Radius ───────────────────────────────────────── */
-  --radius:      0.25rem;
-  --radius-lg:   0.5rem;
-  --radius-xl:   0.75rem;
-  --radius-full: 9999px;
-
-  /* ── Font Families ───────────────────────────────────────── */
-  --font-body-sm:           Inter, sans-serif;
-  --font-body-md:           Inter, sans-serif;
-  --font-body-lg:           Inter, sans-serif;
-  --font-headline-sm:       Inter, sans-serif;
-  --font-headline-md:       Inter, sans-serif;
-  --font-headline-lg:       Inter, sans-serif;
-  --font-headline-lg-mobile: Inter, sans-serif;
-  --font-display-xl:        Inter, sans-serif;
-  --font-display-xl-mobile: Inter, sans-serif;
-  --font-label-ui:          Inter, sans-serif;
-  --font-code-sm:           "JetBrains Mono", monospace;
-  --font-code-md:           "JetBrains Mono", monospace;
-  --font-label-mono:        "JetBrains Mono", monospace;
-
-  /* ── Font Sizes ──────────────────────────────────────────── */
-  --text-body-sm:                   13px;
-  --text-body-sm--line-height:      20px;
-  --text-body-sm--letter-spacing:   0em;
-
-  --text-body-md:                   15px;
-  --text-body-md--line-height:      24px;
-  --text-body-md--letter-spacing:   0em;
-
-  --text-body-lg:                   18px;
-  --text-body-lg--line-height:      28px;
-  --text-body-lg--letter-spacing:   -0.005em;
-
-  --text-headline-sm:               20px;
-  --text-headline-sm--line-height:  28px;
-  --text-headline-sm--letter-spacing: -0.01em;
-
-  --text-headline-md:               28px;
-  --text-headline-md--line-height:  36px;
-  --text-headline-md--letter-spacing: -0.02em;
-
-  --text-headline-lg:               40px;
-  --text-headline-lg--line-height:  48px;
-  --text-headline-lg--letter-spacing: -0.025em;
-
-  --text-headline-lg-mobile:        28px;
-  --text-headline-lg-mobile--line-height: 36px;
-  --text-headline-lg-mobile--letter-spacing: -0.02em;
-
-  --text-display-xl:                56px;
-  --text-display-xl--line-height:   64px;
-  --text-display-xl--letter-spacing: -0.03em;
-
-  --text-display-xl-mobile:         36px;
-  --text-display-xl-mobile--line-height: 44px;
-  --text-display-xl-mobile--letter-spacing: -0.02em;
-
-  --text-label-ui:                  13px;
-  --text-label-ui--line-height:     18px;
-  --text-label-ui--letter-spacing:  0.01em;
-
-  --text-label-mono:                11px;
-  --text-label-mono--line-height:   16px;
-  --text-label-mono--letter-spacing: 0.06em;
-
-  --text-code-sm:                   12px;
-  --text-code-sm--line-height:      18px;
-  --text-code-sm--letter-spacing:   0.02em;
-
-  --text-code-md:                   14px;
-  --text-code-md--line-height:      22px;
-  --text-code-md--letter-spacing:   0em;
+  /* ── Motion ───────────────────────────────────────────── */
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* ============================================================
-   Dark Mode Overrides (.dark on <html>)
-   ============================================================ */
 .dark {
-  --color-surface:                   #0f1117;
-  --color-surface-dim:               #0f1117;
-  --color-surface-bright:            #2a2e39;
-  --color-surface-variant:           #1b1f2a;
-  --color-on-surface:                #f0f2f8;
-  --color-on-surface-variant:        #a5abbb;
-  --color-surface-container-lowest:  #08090d;
-  --color-surface-container-low:     #131720;
-  --color-surface-container:         #181d28;
-  --color-surface-container-high:    #212736;
-  --color-surface-container-highest: #2b3246;
-  --color-inverse-surface:           #f0f2f8;
-  --color-inverse-on-surface:        #12151e;
+  --color-paper:       #0e1116;
+  --color-surface:     #151a21;
+  --color-ink:         #e8ebef;
+  --color-muted:       #9aa3af;
+  --color-rule:        #262d37;
+  --color-accent:      #7aa2ff;
+  --color-accent-ink:  #a3bfff;
+  --color-on-accent:   #0b1020;
+  --color-accent-tint: #1a2540;
 
-  --color-background:                #0f1117;
-  --color-on-background:             #f0f2f8;
-  --color-outline:                   #6e768a;
-  --color-outline-variant:           #2a3142;
-
-  --color-primary:                   #9d9aff;
-  --color-primary-container:         #473bcb;
-  --color-on-primary:                #080054;
-  --color-on-primary-container:      #e2dfff;
-  --color-primary-fixed:             #271c9b;
-  --color-primary-fixed-dim:         #1a1170;
-  --color-on-primary-fixed:          #e2dfff;
-
-  --color-secondary:                 #52d96a;
-  --color-secondary-container:       #005317;
-  --color-on-secondary:              #00390e;
-  --color-on-secondary-container:    #83fc89;
-  --color-secondary-fixed:           #005317;
-
-  --color-tertiary:                  #ffb695;
-  --color-tertiary-container:        #7b2f00;
-  --color-on-tertiary:               #4f1c00;
-  --color-on-tertiary-container:     #ffd2be;
+  --color-ed-bg:     #0d1117;
+  --color-ed-panel:  #11161d;
+  --color-ed-line:   #222a35;
+  --color-ed-text:   #e6edf3;
+  --color-ed-muted:  #8b949e;
+  --color-ed-key:    #79c0ff;
+  --color-ed-str:    #ffa657;
+  --color-ed-num:    #56d4bc;
+  --color-ed-ok:     #3fb950;
 }

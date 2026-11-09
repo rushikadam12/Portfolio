@@ -1,66 +1,15 @@
 ---
-// src/components/common/Footer.astro
-// Site-wide footer with nav links, dark mode styling, and responsive layout
+// Footer.astro — contact links and copyright, one line on desktop.
+import { profile } from "../../data/profile";
 ---
 
-<footer
-  class="w-full bg-surface-container-low border-t border-outline-variant/30 mt-12 transition-colors"
->
-  <div
-    class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left"
-  >
-    <!-- ── Brand Blurb ────────────────────────────────────── -->
-    <div class="flex flex-col items-center md:items-start gap-1">
-      <div class="flex items-center gap-2">
-        <span class="text-base sm:text-lg font-bold text-on-surface">
-          Rushikesh Kadam
-        </span>
-        <span
-          class="font-mono text-xs text-on-surface-variant bg-surface-container px-2 py-0.5 rounded"
-          >v1.1.0</span
-        >
-      </div>
-      <p class="text-xs sm:text-sm text-on-surface-variant max-w-xs">
-        AI Full Stack Engineer &amp; Systems Thinker. Focused on performance,
-        architecture, and craft.
-      </p>
-    </div>
-
-    <!-- ── Footer Nav Links ───────────────────────────────── -->
-    <nav
-      class="flex items-center gap-4 sm:gap-6 flex-wrap justify-center text-xs sm:text-sm"
-    >
-      <a
-        href="/"
-        class="text-on-surface-variant hover:text-on-surface transition-colors"
-        >Home</a
-      >
-      <a
-        href="/professional"
-        class="text-on-surface-variant hover:text-on-surface transition-colors"
-        >Professional</a
-      >
-      <a
-        href="/engineer"
-        class="text-on-surface-variant hover:text-on-surface transition-colors"
-        >Engineer</a
-      >
-      <a
-        href="https://github.com/rushikadam12"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1"
-      >
-        <span class="material-symbols-outlined text-base leading-none"
-          >code</span
-        >
-        GitHub
-      </a>
-    </nav>
-
-    <!-- ── Copyright ──────────────────────────────────────── -->
-    <div class="font-mono text-xs text-on-surface-variant/80">
-      © {new Date().getFullYear()} Rushikesh Kadam
-    </div>
+<footer class="border-t border-rule">
+  <div class="wrap flex flex-col gap-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p>© {new Date().getFullYear()} {profile.name}</p>
+    <ul class="flex flex-wrap gap-x-6 gap-y-1">
+      <li><a class="inline-flex min-h-11 items-center hover:text-ink" href={profile.email.href}>{profile.email.display}</a></li>
+      <li><a class="inline-flex min-h-11 items-center hover:text-ink" href={profile.links.github.href} rel="noopener noreferrer" target="_blank">GitHub</a></li>
+      <li><a class="inline-flex min-h-11 items-center hover:text-ink" href={profile.links.linkedin.href} rel="noopener noreferrer" target="_blank">LinkedIn</a></li>
+    </ul>
   </div>
 </footer>

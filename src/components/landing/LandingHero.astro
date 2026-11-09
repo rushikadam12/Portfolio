@@ -1,45 +1,125 @@
 ---
-// src/components/landing/LandingHero.astro
-// Hero section: eyebrow badge, headline, supporting text, telemetry strip
+// LandingHero.astro — intro line and the view chooser.
+// The chooser is one object split in two: the same record typeset as a profile
+// (left) and written as profile.json (right). Each half opens its view.
+import Icon from "../common/Icon.astro";
+import { profile, headlineStack } from "../../data/profile";
+
+const json = {
+  name: profile.name,
+  role: profile.role,
+  company: profile.companyShort,
+  experience: profile.experience,
+  stack: headlineStack,
+  open_to_work: profile.openToWork,
+};
+const jsonText = JSON.stringify(json, null, 2);
 ---
 
-<section class="flex flex-col items-center text-center pt-space-md pb-space-lg md:pb-space-xl px-4 sm:px-0">
-
-  <!-- ── Eyebrow badge ──────────────────────────────────── -->
-  <div class="reveal-on-scroll inline-flex items-center gap-space-xs px-3 sm:px-space-md py-1 sm:py-1.5 rounded-full bg-surface-container-high text-primary shadow-sm hover:scale-105 transition-transform duration-200 cursor-default max-w-full">
-    <span class="w-2 h-2 rounded-full bg-primary animate-pulse shrink-0"></span>
-    <span class="font-code-sm text-xs sm:text-code-sm font-semibold tracking-wide uppercase text-on-surface-variant truncate">
-      Rushikesh Kadam · AI Full Stack Engineer
-    </span>
+<section class="wrap pt-28 pb-16 sm:pt-36 sm:pb-24" aria-labelledby="hero-title">
+  <div data-enter class="max-w-3xl">
+    <p class="text-muted">{profile.name}, {profile.role} at {profile.companyShort}</p>
+    <h1 id="hero-title" class="mt-3 text-[2.25rem] leading-[1.08] font-semibold tracking-[-0.025em] text-ink sm:text-[3.5rem]">
+      I build LLM pipelines and the web apps around them.
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted">
+      The facts below come in two formats. Read them as a profile, or open them as source.
+    </p>
   </div>
 
-  <!-- ── Main headline (fluid responsive typography) ────── -->
-  <h1 class="reveal-on-scroll delay-75 mt-space-md font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-on-surface max-w-3xl tracking-tight leading-tight">
-    How do you want to read my portfolio?
-  </h1>
+  <div class="mt-12 grid overflow-hidden rounded-xl border border-rule md:grid-cols-2" data-enter>
+    <!-- Professional half -->
+    <div class="flex flex-col bg-surface p-6 sm:p-8">
+      <h2 class="text-sm font-semibold text-muted">Professional view</h2>
+      <dl class="mt-6 grid gap-4 text-ink">
+        <div>
+          <dt class="sr-only">Name</dt>
+          <dd class="text-2xl font-semibold tracking-tight">{profile.name}</dd>
+        </div>
+        <div class="grid grid-cols-[7.5rem_1fr] gap-x-4 gap-y-3 border-t border-rule pt-4 text-[0.9375rem]">
+          <dt class="text-muted">Role</dt>
+          <dd>{profile.role}, {profile.companyShort}</dd>
+          <dt class="text-muted">Experience</dt>
+          <dd>{profile.experience} in AI and full-stack work</dd>
+          <dt class="text-muted">Works with</dt>
+          <dd>{headlineStack.join(", ")}</dd>
+          <dt class="text-muted">Status</dt>
+          <dd>Open to new roles</dd>
+        </div>
+      </dl>
+      <div class="mt-auto pt-8">
+        <a href="/professional" class="btn btn-primary w-full sm:w-auto">
+          Read the profile <Icon name="arrow" size={16} />
+        </a>
+      </div>
+    </div>
 
-  <!-- ── Supporting statement ───────────────────────────── -->
-  <p class="reveal-on-scroll delay-150 mt-space-md font-body-lg text-sm sm:text-base text-on-surface-variant max-w-xl sm:max-w-2xl leading-relaxed">
-    I build high-performance web applications and developer tooling used by teams worldwide.
-    Choose the lens that fits your flow.
+    <!-- Engineer half: always the dark editor, so the two formats contrast -->
+    <div class="dark flex flex-col bg-ed-bg p-6 text-ed-text sm:p-8">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="text-sm font-semibold text-ed-muted">Engineer view</h2>
+        <button
+          type="button"
+          id="copy-json"
+          data-copy={jsonText}
+          class="inline-flex min-h-11 items-center gap-2 rounded-md px-2 font-mono text-xs text-ed-muted transition-colors hover:text-ed-text"
+        >
+          <span class="copy-icon"><Icon name="copy" size={15} /></span>
+          <span class="copied-icon hidden text-ed-ok"><Icon name="check" size={15} /></span>
+          <span class="copy-label">Copy JSON</span>
+        </button>
+      </div>
+      <div class="mt-4 rounded-lg border border-ed-line bg-ed-panel">
+        <p class="flex items-center gap-2 border-b border-ed-line px-4 py-2 font-mono text-xs text-ed-muted">
+          <Icon name="file" size={14} /> profile.json
+        </p>
+        <pre class="code numbered px-2 py-3"><span class="tok-p">{"{"}</span>
+<span>  <span class="tok-key">"name"</span><span class="tok-p">: </span><span class="tok-str">"{json.name}"</span><span class="tok-p">,</span></span>
+<span>  <span class="tok-key">"role"</span><span class="tok-p">: </span><span class="tok-str">"{json.role}"</span><span class="tok-p">,</span></span>
+<span>  <span class="tok-key">"company"</span><span class="tok-p">: </span><span class="tok-str">"{json.company}"</span><span class="tok-p">,</span></span>
+<span>  <span class="tok-key">"experience"</span><span class="tok-p">: </span><span class="tok-str">"{json.experience}"</span><span class="tok-p">,</span></span>
+<span>  <span class="tok-key">"stack"</span><span class="tok-p">: [</span></span>
+{json.stack.map((t, i) => (<span>    <span class="tok-str">"{t}"</span>{i < json.stack.length - 1 && <span class="tok-p">,</span>}</span>))}
+<span class="tok-p">  ],</span>
+<span>  <span class="tok-key">"open_to_work"</span><span class="tok-p">: </span><span class="tok-num">{String(json.open_to_work)}</span></span>
+<span class="tok-p">{"}"}</span></pre>
+      </div>
+      <div class="mt-auto pt-8">
+        <a href="/engineer" class="btn w-full border-ed-line bg-ed-text text-ed-bg hover:bg-ed-muted sm:w-auto">
+          <Icon name="terminal" size={16} /> Open the source view
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <p class="mt-6 text-sm text-muted">
+    Hiring, or want to talk about a project? Email{" "}
+    <a class="link" href={profile.email.href}>{profile.email.display}</a>.
   </p>
-
-  <!-- ── Telemetry sparkline strip (responsive chips) ────── -->
-  <div class="reveal-on-scroll delay-225 mt-space-md flex flex-wrap items-center justify-center gap-2 sm:gap-x-space-lg sm:gap-y-space-xs font-label-mono text-xs text-on-surface-variant/90">
-    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
-      <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-      OPEN TO WORK
-    </span>
-    <span class="hidden sm:inline text-outline-variant">•</span>
-    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
-      <span class="material-symbols-outlined text-sm leading-none text-primary">bolt</span>
-      2.5 YRS · AI + FULL STACK
-    </span>
-    <span class="hidden sm:inline text-outline-variant">•</span>
-    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low sm:bg-transparent">
-      <span class="material-symbols-outlined text-sm leading-none text-on-surface-variant">terminal</span>
-      DUAL-PIPELINE VIEW
-    </span>
-  </div>
-
 </section>
+
+<script>
+  function setupCopy() {
+    const btn = document.getElementById("copy-json");
+    if (!btn) return;
+    const label = btn.querySelector(".copy-label");
+    btn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? "");
+      } catch {
+        if (label) label.textContent = "Copy failed";
+        return;
+      }
+      btn.querySelector(".copy-icon")?.classList.add("hidden");
+      btn.querySelector(".copied-icon")?.classList.remove("hidden");
+      if (label) label.textContent = "Copied";
+      setTimeout(() => {
+        btn.querySelector(".copy-icon")?.classList.remove("hidden");
+        btn.querySelector(".copied-icon")?.classList.add("hidden");
+        if (label) label.textContent = "Copy JSON";
+      }, 2000);
+    };
+  }
+  setupCopy();
+  document.addEventListener("astro:page-load", setupCopy);
+</script>

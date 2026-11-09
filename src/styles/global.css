@@ -5,187 +5,232 @@
 @import "tailwindcss";
 @import "./theme.css";
 
-/* ── Enable class-based Dark Mode in Tailwind v4 ─────────── */
+/* Class-based dark mode (.dark on <html>, set by Layout.astro) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Base resets ─────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* anchors land below the fixed header */
     -webkit-tap-highlight-color: transparent;
-    color-scheme: light dark;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
 
-  html,
   body {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Prevent code/pre elements from forcing horizontal overflow on mobile */
-  pre, code {
+  ::selection {
+    background: var(--color-accent-tint);
+    color: var(--color-ink);
+  }
+
+  /* One visible focus ring for every interactive element */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  pre,
+  code {
     max-width: 100%;
   }
+}
 
-  /* Hide scrollbar across browsers while keeping scroll functionality */
-  * {
-    scrollbar-width: none;        /* Firefox */
-    -ms-overflow-style: none;     /* IE / Edge */
-    box-sizing: border-box;
+@layer components {
+  /* Page container: one width, equal left and right edges everywhere */
+  .wrap {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
   }
 
-  *::-webkit-scrollbar {
-    display: none;                /* Chrome / Safari / Opera */
+  /* Skip link: hidden until focused */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.625rem 1rem;
+    border-radius: 6px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-weight: 600;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Buttons: one pair, used site-wide */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 1.125rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      transform 160ms var(--ease-out-quint);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-ink);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-rule);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-muted);
+  }
+
+  /* Text links: underline that thickens on hover */
+  .link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-thickness 120ms ease;
+  }
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Code listings with line numbers (Engineer view + landing preview) */
+  .code {
+    counter-reset: line;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    color: var(--color-ed-text);
+    white-space: normal; /* newlines between line spans must not add blank lines */
+    overflow-x: auto;
+  }
+  .code > span {
+    display: block;
+    white-space: pre;
+  }
+  .code.numbered > span::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 2.25rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: var(--color-ed-muted);
+    opacity: 0.7;
+    user-select: none;
+  }
+  /* Phones: wrap long lines with a hanging indent instead of scrolling sideways */
+  @media (max-width: 639px) {
+    .code > span {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding-left: 3.25rem;
+      text-indent: -3.25rem;
+    }
+    .code:not(.numbered) > span {
+      padding-left: 0;
+      text-indent: 0;
+    }
+  }
+  .tok-key { color: var(--color-ed-key); }
+  .tok-str { color: var(--color-ed-str); }
+  .tok-num { color: var(--color-ed-num); }
+  .tok-ok  { color: var(--color-ed-ok); }
+  .tok-com { color: var(--color-ed-muted); font-style: italic; }
+  .tok-p   { color: var(--color-ed-muted); }
+  .code a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  /* The listing scrolls, which would clip an outside ring: draw it inside */
+  .code a:focus-visible {
+    outline-offset: -2px;
+    background: var(--color-ed-line);
   }
 }
 
 /* ============================================================
-   Page View Transitions (Cross-Page Animations)
+   Motion
+   One entrance on load for the hero ([data-enter] children),
+   press feedback on buttons, nothing tied to scrolling.
    ============================================================ */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+[data-enter] > * {
+  animation: enter 600ms var(--ease-out-quint) both;
+}
+[data-enter] > *:nth-child(2) { animation-delay: 60ms; }
+[data-enter] > *:nth-child(3) { animation-delay: 120ms; }
+[data-enter] > *:nth-child(4) { animation-delay: 180ms; }
+[data-enter] > *:nth-child(5) { animation-delay: 240ms; }
+
+/* Page-to-page crossfade (Astro ClientRouter) */
 ::view-transition-old(root) {
-  animation: 200ms cubic-bezier(0.4, 0, 0.2, 1) both page-fade-out;
+  animation: 160ms ease both vt-out;
 }
-
 ::view-transition-new(root) {
-  animation: 260ms cubic-bezier(0.16, 1, 0.3, 1) both page-fade-in;
+  animation: 220ms var(--ease-out-quint) both vt-in;
 }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
 
-@keyframes page-fade-out {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.992);
-  }
-}
-
-@keyframes page-fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================================================
-   Scroll Reveal Animations
-   ============================================================ */
-.reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.reveal-on-scroll.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Stagger delay classes */
-.delay-75  { transition-delay: 75ms; }
-.delay-150 { transition-delay: 150ms; }
-.delay-225 { transition-delay: 225ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-375 { transition-delay: 375ms; }
-.delay-450 { transition-delay: 450ms; }
-.delay-600 { transition-delay: 600ms; }
-
-/* ============================================================
-   Interactive Card Transitions & Visual Polish
-   ============================================================ */
-
-/* Professional card hover enhancement */
-.card-hover-pro {
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-              border-color 0.3s ease;
-}
-.card-hover-pro:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -12px rgba(53, 37, 205, 0.25), 0 0 0 1px rgba(79, 70, 229, 0.35);
-}
-
-/* Engineer card hover enhancement */
-.card-hover-eng {
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-              border-color 0.3s ease;
-}
-.card-hover-eng:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -12px rgba(46, 160, 67, 0.28), 0 0 0 1px rgba(63, 185, 80, 0.45);
-}
-
-/* Interactive Card Spotlight Sheen on Hover */
-.card-spotlight {
-  position: relative;
-  overflow: hidden;
-}
-.card-spotlight::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  transition: left 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
-  pointer-events: none;
-  z-index: 10;
-}
-.card-spotlight:hover::before {
-  left: 170%;
-}
-
-/* Soft ambient float */
-@keyframes float-subtle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-}
-.animate-float-subtle {
-  animation: float-subtle 4s ease-in-out infinite;
-}
-
-/* ============================================================
-   Accessibility: Reduced Motion
-   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-enter] > * {
+    animation: none;
+  }
+  .btn:active {
+    transform: none;
+  }
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation: none !important;
-  }
-  .reveal-on-scroll {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-  .card-hover-pro:hover,
-  .card-hover-eng:hover {
-    transform: none !important;
-  }
-  .card-spotlight::before {
-    display: none !important;
-  }
-  .animate-float-subtle {
-    animation: none !important;
+    animation-duration: 1ms;
   }
 }
