@@ -1,85 +1,69 @@
 # Rushikesh Kadam
 
-<div align="center">
+**SDE-2 at Sciverse Solutions Pvt. Ltd. | AI and Full-Stack Engineer**
 
-### **AI Full Stack Engineer**
-
-[![Email](https://img.shields.io/badge/Email-rushi55578%40gmail.com-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:rushi55578@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Rushikesh_Kadam-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/rushikeshkadam)
-[![GitHub](https://img.shields.io/badge/GitHub-rushikadam12-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/rushikadam12)
-[![Portfolio](https://img.shields.io/badge/Portfolio-rushikeshkadam.dev-4F46E5?style=flat-square&logo=google-chrome&logoColor=white)](https://rushikeshkadam.dev)
-[![Status](https://img.shields.io/badge/Status-Available_for_Opportunities-success?style=flat-square)](#)
-
-</div>
+[rushikeshkadam.dev](https://rushikeshkadam.dev) | [contact@rushikeshkadam.dev](mailto:rushi55578@gmail.com) | [LinkedIn](https://linkedin.com/in/rushikeshkadam) | [GitHub](https://github.com/rushikadam12)
 
 ---
 
-## 👨‍💻 Executive Summary
+## Summary
 
-AI Full Stack Engineer with **2.5+ years of hands-on experience** building AI-powered systems and production-grade web applications. Proven track record in developing end-to-end LLM pipelines, autonomous agentic workflows, asynchronous Python backends, and high-performance modern web platforms. 
+Software engineer with 2.5+ years of experience building LLM pipelines and the web applications that put them in front of people. I work across the stack: retrieval and agent workflows in Python, FastAPI services behind them, and TypeScript interfaces on top. Open to AI engineering, full-stack and backend roles.
 
-Focused on bridging modern AI capabilities (RAG, agent workflows, LLM orchestration) with clean, scalable, and resilient software architectures.
+## Experience
 
----
+### SDE-2, Sciverse Solutions Pvt. Ltd.
+*Current role*
 
-## ⚡ Quick Metrics
+- Build LLM-powered pipelines with LangChain, the OpenAI API and Python.
+- Design and ship FastAPI services and the TypeScript front ends that use them.
+- Own features end to end, from data model and API to the screen a user sees.
 
-- **Experience**: 2.5+ Years in AI Engineering & Full Stack Development
-- **Production Deployments**: 20+ shipped applications & services
-- **Scale**: Architected SaaS platforms serving **10,000+ active users**
-- **Impact**: Delivered automation pipelines reducing manual processing by **70%**
+## Areas of Focus
 
----
+**AI systems.** Retrieval-augmented generation and agent workflows: chunking and indexing documents, calling models with the right context, and returning answers an application can trust.
+*Python, LangChain, LlamaIndex, OpenAI API, FastAPI*
 
-## 🛠️ Technical Competencies
+**Full-stack products.** Web applications from database to interface: typed APIs, authentication, background jobs, and front ends that stay fast as they grow.
+*TypeScript, React, Next.js, Node.js, PostgreSQL*
 
-| Domain | Technologies & Frameworks |
+## Technical Skills
+
+| Area | Tools |
 | :--- | :--- |
-| **AI / ML & Agents** | LangChain, LlamaIndex, OpenAI API, HuggingFace, Ollama, RAG Architectures, Agentic Workflows, Prompt Engineering |
-| **Backend Engineering** | Python, FastAPI, Node.js, Express, Pydantic, AsyncIO, RESTful APIs, GraphQL |
-| **Frontend Development** | TypeScript, JavaScript, React, Next.js, Astro, Tailwind CSS, HTML5, CSS3 |
-| **Data & Persistence** | PostgreSQL, MongoDB, Redis, SQLAlchemy, Vector Stores |
-| **DevOps & Cloud** | Docker, Git, GitHub Actions, CI/CD Pipelines, Linux |
+| AI and ML | LangChain, LlamaIndex, OpenAI API, Hugging Face, Ollama |
+| Backend | Python, FastAPI, Pydantic, Node.js, Express, REST, GraphQL |
+| Frontend | TypeScript, React, Next.js, Astro, Tailwind CSS |
+| Data | PostgreSQL, SQLAlchemy, Prisma, Redis |
+| Delivery | Docker, GitHub Actions, Vercel, Linux, Pytest |
+
+## Contact
+
+Email is the fastest way to reach me: [contact@rushikeshkadam.dev](mailto:rushi55578@gmail.com)
 
 ---
 
-## 💼 Work Experience
+## About This Repository
 
-### **AI Engineer & Full Stack Engineer**
-*2024 — Present*
-- Engineered LLM-powered agentic pipelines and retrieval-augmented generation (RAG) systems using **LangChain**, **OpenAI API**, and **Python**.
-- Architected and delivered scalable SaaS applications serving **10,000+ active users** with high availability.
-- Optimized frontend performance, reducing page load times by **60%** using SSR, lazy loading, and edge caching strategies.
-- Implemented robust asynchronous backend microservices with **FastAPI** and **Docker**.
+Source for [rushikeshkadam.dev](https://rushikeshkadam.dev). The portfolio can be read two ways: a **Professional** view for a quick read, and an **Engineer** view that presents the same facts as source files (`profile.json`, `experience.ts`, `stack.yaml`).
 
-### **Full Stack Engineer**
-*2022 — 2024*
-- Developed reusable UI design systems and component libraries adopted across multiple product teams.
-- Integrated critical third-party services including **Stripe**, **Auth0**, and **Firebase** into production web applications.
-- Collaborated across engineering and product teams to ship responsive, mobile-first web platforms.
-- Mentored junior engineers on code quality, testing, and modern JavaScript/TypeScript patterns.
+**Stack:** Astro 7 (static output), Tailwind CSS 4, TypeScript. No client framework; pages ship about 100 KB or less.
 
----
+**Structure**
 
-## 🚀 Key Projects
+| Path | Purpose |
+| :--- | :--- |
+| `src/data/profile.ts` | Every fact shown on the site, in one place |
+| `src/pages/` | Routes: `/`, `/professional`, `/engineer` |
+| `src/components/` | Components grouped by view, plus shared header, footer and icons |
+| `src/styles/theme.css` | Design tokens for light and dark themes |
+| `public/_headers` | Security headers for Netlify / Cloudflare Pages |
 
-### **AI-Powered Agentic Systems & RAG Pipelines**
-- **Stack**: Python, LangChain, OpenAI API, FastAPI, Vector DB, Docker
-- **Overview**: Built autonomous agent workflows capable of multi-step task execution, document reasoning, and context retrieval.
-- **Impact**: Reduced manual workflow processing time by **70%**.
+**Run locally** (Node 22+)
 
-### **Scalable Full-Stack Web Platforms**
-- **Stack**: TypeScript, React, Next.js, FastAPI, PostgreSQL, Tailwind CSS
-- **Overview**: Designed and deployed cloud-native web applications with clean REST architectures, role-based authentication, and responsive interfaces.
-- **Impact**: Supported **10k+ monthly active users** with zero downtime during major updates.
-
----
-
-## 📬 Let's Connect
-
-I am currently open to **AI Engineering**, **Full Stack**, and **Backend** roles.
-
-- 📧 **Email**: [rushi55578@gmail.com](mailto:rushi55578@gmail.com)
-- 💼 **LinkedIn**: [linkedin.com/in/rushikeshkadam](https://linkedin.com/in/rushikeshkadam)
-- 🐙 **GitHub**: [@rushikadam12](https://github.com/rushikadam12)
-- 🌐 **Portfolio**: [rushikeshkadam.dev](https://rushikeshkadam.dev)
+```sh
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # static site in dist/
+npm run preview   # serve the build
+```
